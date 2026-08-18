@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loewe Additivity Calculator &amp; Isobologram Plotter | Free Synergy Tool</title>
+  <meta name="title" content="Loewe Additivity Calculator &amp; Isobologram Plotter | Free Synergy Tool" />
+  <meta name="description" content="Calculate Loewe Additivity Combination Index (CI), process Excel checkerboards, and plot interactive 2D isobolograms. Developed and maintained by Dr. Pon Nivedha Rajamanickam, Dr. Jothi Nedunchezhian &amp; Dr. Radha Arulkumar at Holy Cross College." />
+  <meta name="keywords" content="Loewe additivity calculator, isobologram plotter, drug synergy calculator, combination index CI, pharmacology synergy analysis, Holy Cross College bioinformatics" />
+  <meta name="author" content="Dr. Pon Nivedha Rajamanickam, Dr. Jothi Nedunchezhian, Dr. Radha Arulkumar" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Base64 Encoded Multi-Browser Vector Favicon -->
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0ZjQ2ZTUiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwNmI2ZDQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSJ1cmwoI2cpIi8+PHBhdGggZD0iTTI1IDI0IFY3NiBINzYiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48bGluZSB4MT0iMjUiIHkxPSIzNiIgeDI9IjY1IiB5Mj0iNzYiIHN0cm9rZT0iI2ZlZDdhYSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI1LDQiLz48Y2lyY2xlIGN4PSIyNSIgY3k9IjM2IiByPSI1LjUiIGZpbGw9IiNmOTczMTYiLz48Y2lyY2xlIGN4PSI2NSIgY3k9Ijc2IiByPSI1LjUiIGZpbGw9IiNmOTczMTYiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjYyIiByPSI3IiBmaWxsPSIjMTBiOTgxIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==" />
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Loewe Additivity Calculator & Isobologram Plotter",
+    "applicationCategory": "EducationalApplication, HealthApplication",
+    "operatingSystem": "All",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Dr. Pon Nivedha Rajamanickam",
+        "affiliation": {
+          "@type": "EducationalOrganization",
+          "name": "Holy Cross College (Autonomous), Trichirappalli",
+          "department": "Department of Biotechnology and Bioinformatics"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Dr. Jothi Nedunchezhian",
+        "affiliation": {
+          "@type": "EducationalOrganization",
+          "name": "Holy Cross College (Autonomous), Trichirappalli",
+          "department": "Department of Biotechnology and Bioinformatics"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Dr. Radha Arulkumar",
+        "affiliation": {
+          "@type": "EducationalOrganization",
+          "name": "Holy Cross College (Autonomous), Trichirappalli",
+          "department": "Department of Biotechnology and Bioinformatics"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <script>
+    window.tailwind = {
+      config: {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col antialiased transition-colors duration-200 selection:bg-indigo-500 selection:text-white">
+  
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 hidden dark:block">
+    <div class="absolute -top-40 left-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-20 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 py-6 md:py-10 flex-grow w-full space-y-6 md:space-y-8">
+    
+    <!-- Backend Connection Handshake Status Bar -->
+    <div id="backend-status-card" class="rounded-2xl px-4 py-3 text-xs font-mono flex items-center justify-between border transition-all duration-300 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300">
+      <div class="flex items-center gap-2.5">
+        <span id="backend-status-ping" class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+        <span id="backend-status-text">Connecting to backend webservice on-load...</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="promptBackendURL()" class="underline font-sans font-semibold text-[11px] text-indigo-600 dark:text-indigo-400 hover:opacity-80">Configure API Endpoint</button>
+        <span id="backend-latency" class="text-[11px] font-bold">--- ms</span>
+      </div>
+    </div>
+
+    <!-- Header with High-Visibility Logo & Academic Branding -->
+    <header class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-2xl transition-colors duration-200">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+        
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 md:w-16 md:h-16 flex-shrink-0 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-2.5 shadow-lg shadow-indigo-500/25 flex items-center justify-center border border-white/20">
+            <svg class="w-full h-full text-white drop-shadow-sm" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 20 V78 H80" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="22" y1="36" x2="68" y2="78" stroke="#fed7aa" stroke-width="4.5" stroke-dasharray="6,4" stroke-linecap="round"/>
+              <circle cx="22" cy="36" r="5" fill="#f97316" stroke="#ffffff" stroke-width="2"/>
+              <circle cx="68" cy="78" r="5" fill="#f97316" stroke="#ffffff" stroke-width="2"/>
+              <circle cx="40" cy="62" r="9" fill="#10b981" fill-opacity="0.3"/>
+              <circle cx="40" cy="62" r="5.5" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+              <circle cx="72" cy="26" r="3.5" fill="#38bdf8"/>
+              <ellipse cx="72" cy="26" rx="11" ry="4.5" transform="rotate(-25 72 26)" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.5"/>
+            </svg>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400 animate-pulse"></span>
+                Bioinformatics &amp; Pharmacology
+              </span>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Loewe Additivity Calculator
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm mt-0.5">Static Landing Page with Secure Backend Engine</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button id="btn-preset-synergy" onclick="loadPreset('synergy')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-slate-950 transition-all shadow-sm">
+            Synergy Preset
+          </button>
+          <button id="btn-preset-additive" onclick="loadPreset('additive')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 dark:hover:text-white transition-all shadow-sm">
+            Additive Preset
+          </button>
+          <button id="btn-preset-antagonism" onclick="loadPreset('antagonism')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20 hover:bg-rose-600 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white transition-all shadow-sm">
+            Antagonism Preset
+          </button>
+
+          <button id="theme-toggle" onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-300 dark:border-slate-700 hover:scale-105 transition-all shadow-sm" title="Toggle Day/Night Mode">
+            <svg id="theme-icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9h-1m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg id="theme-icon-moon" class="w-4 h-4 block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-5 grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+        <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <span class="block text-slate-500 dark:text-slate-400 font-medium">Principal Developers &amp; Maintainers</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200 text-sm mt-0.5 block">Dr. Pon Nivedha Rajamanickam, Dr. Jothi Nedunchezhian &amp; Dr. Radha Arulkumar</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <span class="block text-slate-500 dark:text-slate-400 font-medium">Academic Department</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200 text-sm mt-0.5 block">Biotechnology &amp; Bioinformatics</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <span class="block text-slate-500 dark:text-slate-400 font-medium">Institution</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200 text-sm mt-0.5 block">Holy Cross College (Autonomous), Trichy</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Excel Batch Processing Drop Zone -->
+    <section class="bg-indigo-50/50 dark:bg-slate-900 border border-indigo-200 dark:border-indigo-500/30 rounded-3xl p-6 shadow-sm space-y-4 transition-colors duration-200">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </span>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Batch Excel / CSV Data Processing</h2>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Upload multiple combinations for high-throughput server processing.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button onclick="downloadSampleExcel()" class="inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-slate-700 transition shadow-sm">
+            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            Download Sample Excel (.xlsx)
+          </button>
+
+          <label class="inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 cursor-pointer shadow-md shadow-indigo-600/20 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+            Upload Excel File
+            <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleExcelUpload(event)" />
+          </label>
+        </div>
+      </div>
+
+      <div id="drop-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" class="border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-indigo-500 rounded-2xl p-4 text-center text-xs text-slate-500 dark:text-slate-400 transition cursor-pointer" onclick="document.getElementById('excel-file-input').click()">
+        Drag and drop your <strong>.xlsx</strong>, <strong>.xls</strong>, or <strong>.csv</strong> file here, or click to browse.
+      </div>
+
+      <div id="upload-status" class="hidden text-xs py-2 px-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-between">
+        <span id="upload-status-text">Processing file on server...</span>
+        <button onclick="clearBatchData()" class="underline font-bold text-rose-500 hover:text-rose-600">Clear Batch Data</button>
+      </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+      
+      <!-- Input Panel -->
+      <section class="lg:col-span-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-7 shadow-sm dark:shadow-xl space-y-6 flex flex-col justify-between transition-colors duration-200">
+        <div class="space-y-4 md:space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+            <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-xs">Primary Parameters</h2>
+            <div class="flex items-center gap-2">
+              <label for="unit" class="text-xs text-slate-500 dark:text-slate-400">Unit:</label>
+              <input type="text" id="unit" value="µM" oninput="requestCalculation()" class="w-16 px-2.5 py-1 text-xs font-mono font-bold bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg text-indigo-600 dark:text-indigo-400 text-center focus:border-indigo-500 outline-none" />
+            </div>
+          </div>
+
+          <!-- Single Drug A -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <label for="DA" class="font-semibold text-slate-700 dark:text-slate-300">Drug A Solo IC₅₀ (D<sub>A</sub>)</label>
+              <span id="label_DA" class="font-mono font-bold text-indigo-600 dark:text-indigo-400">100 µM</span>
+            </div>
+            <input type="number" id="DA" value="100" min="1" step="any" oninput="requestCalculation()" class="w-full px-4 py-2.5 text-sm font-mono bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition" />
+          </div>
+
+          <!-- Single Drug B -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <label for="DB" class="font-semibold text-slate-700 dark:text-slate-300">Drug B Solo IC₅₀ (D<sub>B</sub>)</label>
+              <span id="label_DB" class="font-mono font-bold text-indigo-600 dark:text-indigo-400">50 µM</span>
+            </div>
+            <input type="number" id="DB" value="50" min="1" step="any" oninput="requestCalculation()" class="w-full px-4 py-2.5 text-sm font-mono bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition" />
+          </div>
+
+          <div class="pt-2 border-t border-slate-100 dark:border-slate-800"></div>
+
+          <!-- Single Manual Point Controls -->
+          <div class="space-y-4">
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <label for="dA" class="font-semibold text-slate-700 dark:text-slate-300">Combo Dose Drug A (d<sub>A</sub>)</label>
+                <span id="label_dA" class="font-mono font-bold text-emerald-600 dark:text-emerald-400">30 µM</span>
+              </div>
+              <input type="number" id="dA" value="30" min="0" step="any" oninput="requestCalculation()" class="w-full px-4 py-2.5 text-sm font-mono bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/50 focus:border-indigo-500 outline-none transition" />
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center text-xs">
+                <label for="dB" class="font-semibold text-slate-700 dark:text-slate-300">Combo Dose Drug B (d<sub>B</sub>)</label>
+                <span id="label_dB" class="font-mono font-bold text-emerald-600 dark:text-emerald-400">15 µM</span>
+              </div>
+              <input type="number" id="dB" value="15" min="0" step="any" oninput="requestCalculation()" class="w-full px-4 py-2.5 text-sm font-mono bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/50 focus:border-indigo-500 outline-none transition" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Result Box -->
+        <div id="result-box" class="p-5 rounded-2xl border transition-all duration-200 mt-6 bg-slate-100 dark:bg-slate-950 border-slate-200 dark:border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400">Combination Index (CI)</span>
+            <span id="ci-badge" class="px-3 py-1 text-xs font-bold rounded-full">Server Calculating</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span id="ci-value" class="text-4xl font-black font-mono tracking-tight text-slate-900 dark:text-white">---</span>
+          </div>
+          <div class="mt-3 text-xs space-y-1 font-mono text-slate-600 dark:text-slate-400">
+            <div id="fraction-breakdown">d<sub>A</sub>/D<sub>A</sub> + d<sub>B</sub>/D<sub>B</sub></div>
+            <div id="interpretation" class="font-sans font-semibold pt-1">Evaluating via backend webservice...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Isobologram Visualization Display -->
+      <section class="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-7 shadow-sm dark:shadow-xl flex flex-col justify-between transition-colors duration-200">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Cartesian Isobologram Plot</h2>
+            <div class="flex items-center gap-2">
+              <span id="plot-point-count" class="text-xs font-mono text-indigo-600 dark:text-indigo-400 font-bold">1 Dose Plotted</span>
+              <button onclick="downloadChartPNG()" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition" title="Download High-Res Figure">
+                Export PNG
+              </button>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 md:mb-6">Data points falling below the dashed diagonal line represent synergistic drug combinations.</p>
+          
+          <div class="relative w-full h-80 md:h-[390px]">
+            <canvas id="isobologramChart" aria-label="Interactive Isobologram Plot" role="img"></canvas>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="mt-6 grid grid-cols-3 gap-2.5 md:gap-3 text-center text-xs font-mono">
+          <div class="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 text-emerald-800 dark:text-emerald-300">
+            <div class="font-bold text-sm">CI &lt; 0.9</div>
+            <div class="text-[11px] font-sans text-emerald-700 dark:text-emerald-400 mt-0.5">Synergy</div>
+          </div>
+          <div class="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/40 text-indigo-800 dark:text-indigo-300">
+            <div class="font-bold text-sm">0.9 ≤ CI ≤ 1.1</div>
+            <div class="text-[11px] font-sans text-indigo-700 dark:text-indigo-400 mt-0.5">Additivity</div>
+          </div>
+          <div class="p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 text-rose-800 dark:text-rose-300">
+            <div class="font-bold text-sm">CI &gt; 1.1</div>
+            <div class="text-[11px] font-sans text-rose-700 dark:text-rose-400 mt-0.5">Antagonism</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Batch Results Table & Summary Cards -->
+    <section id="batch-results-section" class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-xl space-y-6 transition-colors duration-200">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">Batch Analysis Summary</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Processed securely by backend API webservice.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="exportProcessedResults()" class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 transition shadow-sm">
+            Export Results (.xlsx)
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <span class="text-xs text-slate-500 dark:text-slate-400">Total Samples</span>
+          <div id="stat-total" class="text-2xl font-extrabold font-mono text-slate-900 dark:text-white mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40">
+          <span class="text-xs text-emerald-700 dark:text-emerald-400">Synergistic Pairs</span>
+          <div id="stat-synergy" class="text-2xl font-extrabold font-mono text-emerald-600 dark:text-emerald-300 mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/40">
+          <span class="text-xs text-indigo-700 dark:text-indigo-400">Additive Pairs</span>
+          <div id="stat-additive" class="text-2xl font-extrabold font-mono text-indigo-600 dark:text-indigo-300 mt-1">0</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40">
+          <span class="text-xs text-rose-700 dark:text-rose-400">Antagonistic Pairs</span>
+          <div id="stat-antagonism" class="text-2xl font-extrabold font-mono text-rose-600 dark:text-rose-300 mt-1">0</div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-bold">
+            <tr>
+              <th class="p-3 rounded-l-xl">Sample ID</th>
+              <th class="p-3">Dose A (d<sub>A</sub>)</th>
+              <th class="p-3">Dose B (d<sub>B</sub>)</th>
+              <th class="p-3">D<sub>A</sub> Solo</th>
+              <th class="p-3">D<sub>B</sub> Solo</th>
+              <th class="p-3">CI Value</th>
+              <th class="p-3 rounded-r-xl">Outcome</th>
+            </tr>
+          </thead>
+          <tbody id="batch-table-body" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Scientific Context Section -->
+    <article id="scientific-context-section" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-xl space-y-6 text-sm text-slate-700 dark:text-slate-300 transition-colors duration-200">
+      <div class="border-b border-slate-100 dark:border-slate-800 pb-4">
+        <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Loewe Additivity &amp; High-Throughput Checkerboard Screening</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm mt-1">A reference framework for pharmacodynamic synergy and combination therapy evaluation</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+          <h3 class="font-bold text-slate-900 dark:text-white text-base">The Loewe Equation</h3>
+          <p>The <strong>Loewe Additivity Model</strong> computes the Combination Index (CI) as:</p>
+          <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 font-mono text-center text-sm font-bold text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-slate-800">
+            CI = (d<sub>A</sub> / D<sub>A</sub>) + (d<sub>B</sub> / D<sub>B</sub>)
+          </div>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-600 dark:text-slate-300">
+            <li><strong>d<sub>A</sub>, d<sub>B</sub>:</strong> Doses of Drug A and Drug B in the combination.</li>
+            <li><strong>D<sub>A</sub>, D<sub>B</sub>:</strong> Standalone equipotent doses (e.g., IC₅₀ or MIC).</li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="font-bold text-slate-900 dark:text-white text-base">Expected Excel Format</h3>
+          <p>The uploaded Excel file should have columns matching:</p>
+          <div class="p-3 rounded-xl bg-slate-100 dark:bg-slate-950 font-mono text-xs text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
+            <code>Sample_ID, Dose_A, Dose_B, Solo_DA, Solo_DB</code>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="mt-8 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400 space-y-2 transition-colors duration-200">
+      <div class="font-semibold text-slate-800 dark:text-slate-200">
+        Loewe Additivity Calculator &copy; 2026 Dr. Pon Nivedha Rajamanickam, Dr. Jothi Nedunchezhian &amp; Dr. Radha Arulkumar. All rights reserved.
+      </div>
+      <div>
+        Department of Biotechnology and Bioinformatics &bull; Holy Cross College (Autonomous), Trichirappalli
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    let BACKEND_API_BASE = localStorage.getItem('loewe_backend_api_url') || 'https://loewe-calc-api.onrender.com';
+    let isobologramChart = null;
+    let batchData = [];
+    let debounceTimer = null;
+
+    function promptBackendURL() {
+      const input = prompt("Enter your Render Backend Web Service URL:", BACKEND_API_BASE);
+      if (input !== null && input.trim() !== '') {
+        BACKEND_API_BASE = input.trim().replace(/\/$/, '');
+        localStorage.setItem('loewe_backend_api_url', BACKEND_API_BASE);
+        checkBackendOnLoad();
+      }
+    }
+
+    async function checkBackendOnLoad() {
+      const card = document.getElementById('backend-status-card');
+      const ping = document.getElementById('backend-status-ping');
+      const text = document.getElementById('backend-status-text');
+      const latencyLabel = document.getElementById('backend-latency');
+
+      card.className = "rounded-2xl px-4 py-3 text-xs font-mono flex items-center justify-between border transition-all duration-300 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300";
+      ping.className = "w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping";
+      text.innerText = `Connecting to backend: ${BACKEND_API_BASE}...`;
+      latencyLabel.innerText = "pinging...";
+
+      const startTime = performance.now();
+      try {
+        const res = await fetch(`${BACKEND_API_BASE}/api/health`, { method: 'GET' });
+        const latency = Math.round(performance.now() - startTime);
+
+        if (res.ok) {
+          card.className = "rounded-2xl px-4 py-3 text-xs font-mono flex items-center justify-between border transition-all duration-300 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300";
+          ping.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+          text.innerHTML = `✓ Backend Webservice Connected (Live &amp; Secure)`;
+          latencyLabel.innerText = `${latency} ms`;
+          requestCalculation();
+        } else {
+          throw new Error('Non-200 response');
+        }
+      } catch (err) {
+        card.className = "rounded-2xl px-4 py-3 text-xs font-mono flex items-center justify-between border transition-all duration-300 bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800/60 text-rose-800 dark:text-rose-300";
+        ping.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+        text.innerHTML = `⚠ Backend offline or waking up. Please verify endpoint URL.`;
+        latencyLabel.innerText = "failed";
+      }
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon-sun')?.classList.add('hidden');
+        document.getElementById('theme-icon-moon')?.classList.remove('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-icon-sun')?.classList.remove('hidden');
+        document.getElementById('theme-icon-moon')?.classList.add('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.getElementById('theme-icon-sun')?.classList.toggle('hidden', isDark);
+      document.getElementById('theme-icon-moon')?.classList.toggle('hidden', !isDark);
+      updateChartTheme(isDark);
+    }
+
+    function updateChartTheme(isDark) {
+      if (!isobologramChart) return;
+      const gridColor = isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(226, 232, 240, 0.9)';
+      const labelColor = isDark ? '#94a3b8' : '#64748b';
+      const legendColor = isDark ? '#cbd5e1' : '#334155';
+
+      isobologramChart.options.scales.x.grid.color = gridColor;
+      isobologramChart.options.scales.x.ticks.color = labelColor;
+      isobologramChart.options.scales.x.title.color = labelColor;
+      isobologramChart.options.scales.y.grid.color = gridColor;
+      isobologramChart.options.scales.y.ticks.color = labelColor;
+      isobologramChart.options.scales.y.title.color = labelColor;
+      isobologramChart.options.plugins.legend.labels.color = legendColor;
+      isobologramChart.update();
+    }
+
+    function initChart() {
+      const ctx = document.getElementById('isobologramChart').getContext('2d');
+      const isDark = document.documentElement.classList.contains('dark');
+
+      isobologramChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            {
+              label: 'Additivity Isobole (CI = 1.0)',
+              data: [{ x: 0, y: 50 }, { x: 100, y: 0 }],
+              showLine: true,
+              borderColor: '#6366f1',
+              borderWidth: 2.5,
+              borderDash: [6, 6],
+              pointRadius: 5,
+              pointBackgroundColor: '#6366f1',
+              fill: false
+            },
+            {
+              label: 'Observed Points (Backend Output)',
+              data: [{ x: 30, y: 15 }],
+              pointRadius: 8,
+              pointHoverRadius: 11,
+              pointBackgroundColor: ['#10b981'],
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              type: 'linear',
+              position: 'bottom',
+              title: { 
+                display: true, 
+                text: 'Drug A Dose (µM)', 
+                color: isDark ? '#94a3b8' : '#64748b',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } 
+              },
+              grid: { color: isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(226, 232, 240, 0.9)' },
+              ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { family: 'JetBrains Mono' } },
+              min: 0
+            },
+            y: {
+              title: { 
+                display: true, 
+                text: 'Drug B Dose (µM)', 
+                color: isDark ? '#94a3b8' : '#64748b',
+                font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } 
+              },
+              grid: { color: isDark ? 'rgba(51, 65, 85, 0.4)' : 'rgba(226, 232, 240, 0.9)' },
+              ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { family: 'JetBrains Mono' } },
+              min: 0
+            }
+          }
+        }
+      });
+    }
+
+    async function requestCalculation() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(async () => {
+        const DA = parseFloat(document.getElementById('DA').value) || 0;
+        const DB = parseFloat(document.getElementById('DB').value) || 0;
+        const dA = parseFloat(document.getElementById('dA').value) || 0;
+        const dB = parseFloat(document.getElementById('dB').value) || 0;
+        const unit = document.getElementById('unit').value || 'µM';
+        const isDark = document.documentElement.classList.contains('dark');
+
+        document.getElementById('label_DA').innerText = `${DA} ${unit}`;
+        document.getElementById('label_DB').innerText = `${DB} ${unit}`;
+        document.getElementById('label_dA').innerText = `${dA} ${unit}`;
+        document.getElementById('label_dB').innerText = `${dB} ${unit}`;
+
+        if (batchData.length > 0) return;
+
+        try {
+          const response = await fetch(`${BACKEND_API_BASE}/api/calculate-single`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dA, dB, DA, DB })
+          });
+
+          if (!response.ok) throw new Error('Calculation request failed');
+          const data = await response.json();
+
+          document.getElementById('ci-value').innerText = data.ci.toFixed(3);
+          document.getElementById('fraction-breakdown').innerHTML = 
+            `d<sub>A</sub>/D<sub>A</sub> + d<sub>B</sub>/D<sub>B</sub> = ${data.fracA.toFixed(3)} + ${data.fracB.toFixed(3)} = ${data.ci.toFixed(3)}`;
+
+          const resBox = document.getElementById('result-box');
+          const ciBadge = document.getElementById('ci-badge');
+          const interp = document.getElementById('interpretation');
+
+          ciBadge.innerText = data.outcome;
+          interp.innerText = data.description;
+
+          if (data.outcome === 'Synergy') {
+            resBox.className = isDark
+              ? 'p-5 rounded-2xl border transition-all duration-200 mt-6 bg-emerald-950/40 border-emerald-500/40 shadow-lg shadow-emerald-950/50'
+              : 'p-5 rounded-2xl border transition-all duration-200 mt-6 bg-emerald-50 border-emerald-300 shadow-sm';
+            ciBadge.className = isDark
+              ? 'px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+              : 'px-3 py-1 text-xs font-bold rounded-full bg-emerald-200 text-emerald-900 border border-emerald-300';
+          } else if (data.outcome === 'Loewe Additivity') {
+            resBox.className = isDark
+              ? 'p-5 rounded-2xl border transition-all duration-200 mt-6 bg-indigo-950/40 border-indigo-500/40 shadow-lg shadow-indigo-950/50'
+              : 'p-5 rounded-2xl border transition-all duration-200 mt-6 bg-indigo-50 border-indigo-300 shadow-sm';
+            ciBadge.className = isDark
+              ? 'px-3 py-1 text-xs font-bold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+              : 'px-3 py-1 text-xs font-bold rounded-full bg-indigo-200 text-indigo-900 border border-indigo-300';
+          } else {
+            resBox.className = isDark
+              ? 'p-5 rounded-2xl border transition-all duration-200 mt-6 bg-rose-950/40 border-rose-500/40 shadow-lg shadow-rose-950/50'
+              : 'p-5 rounded-2xl border transition-all duration-200 mt-6 bg-rose-50 border-rose-300 shadow-sm';
+            ciBadge.className = isDark
+              ? 'px-3 py-1 text-xs font-bold rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30'
+              : 'px-3 py-1 text-xs font-bold rounded-full bg-rose-200 text-rose-900 border border-rose-300';
+          }
+
+          if (isobologramChart) {
+            isobologramChart.options.scales.x.title.text = `Drug A Dose (${unit})`;
+            isobologramChart.options.scales.y.title.text = `Drug B Dose (${unit})`;
+            isobologramChart.options.scales.x.max = Math.max(data.DA * 1.25, data.dA * 1.25, 10);
+            isobologramChart.options.scales.y.max = Math.max(data.DB * 1.25, data.dB * 1.25, 10);
+            isobologramChart.data.datasets[0].data = [{ x: 0, y: data.DB }, { x: data.DA, y: 0 }];
+            isobologramChart.data.datasets[1].data = [{ x: data.dA, y: data.dB }];
+            isobologramChart.data.datasets[1].pointBackgroundColor = [data.color];
+            document.getElementById('plot-point-count').innerText = '1 Dose Plotted';
+            isobologramChart.update();
+          }
+        } catch(err) {
+          console.error(err);
+        }
+      }, 150);
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').classList.add('border-indigo-500', 'bg-indigo-500/10');
+    }
+
+    function handleDragLeave(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').classList.remove('border-indigo-500', 'bg-indigo-500/10');
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('drop-zone').classList.remove('border-indigo-500', 'bg-indigo-500/10');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        processExcelBlob(e.dataTransfer.files[0]);
+      }
+    }
+
+    function handleExcelUpload(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        processExcelBlob(e.target.files[0]);
+      }
+    }
+
+    function processExcelBlob(file) {
+      const reader = new FileReader();
+      reader.onload = async function(evt) {
+        try {
+          const data = new Uint8Array(evt.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+
+          const defaultDA = parseFloat(document.getElementById('DA').value) || 100;
+          const defaultDB = parseFloat(document.getElementById('DB').value) || 50;
+
+          const response = await fetch(`${BACKEND_API_BASE}/api/calculate-batch`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: rawRows, defaultDA, defaultDB })
+          });
+
+          if (!response.ok) throw new Error('Batch calculation failed');
+          const batchResult = await response.json();
+          batchData = batchResult.results;
+
+          document.getElementById('upload-status').classList.remove('hidden');
+          document.getElementById('upload-status-text').innerText = `Server processed ${batchData.length} records from "${file.name}"`;
+          document.getElementById('batch-results-section').classList.remove('hidden');
+
+          document.getElementById('stat-total').innerText = batchResult.summary.total;
+          document.getElementById('stat-synergy').innerText = batchResult.summary.countSynergy;
+          document.getElementById('stat-additive').innerText = batchResult.summary.countAdditive;
+          document.getElementById('stat-antagonism').innerText = batchResult.summary.countAntagonism;
+          document.getElementById('ci-value').innerText = batchResult.summary.avgCI.toFixed(3);
+          document.getElementById('fraction-breakdown').innerHTML = `Server average across <strong>${batchData.length}</strong> samples`;
+
+          const tbody = document.getElementById('batch-table-body');
+          tbody.innerHTML = '';
+          const chartPoints = [];
+          const pointColors = [];
+          let maxDA = 0, maxDB = 0;
+
+          batchData.forEach(item => {
+            chartPoints.push({ x: item.dA, y: item.dB });
+            pointColors.push(item.color);
+            maxDA = Math.max(maxDA, item.DA, item.dA);
+            maxDB = Math.max(maxDB, item.DB, item.dB);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td class="p-3 font-semibold text-slate-800 dark:text-slate-200">${item.sampleId}</td>
+              <td class="p-3 font-mono">${item.dA}</td>
+              <td class="p-3 font-mono">${item.dB}</td>
+              <td class="p-3 font-mono text-slate-500">${item.DA}</td>
+              <td class="p-3 font-mono text-slate-500">${item.DB}</td>
+              <td class="p-3 font-mono font-bold">${item.ci.toFixed(3)}</td>
+              <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold" style="background:${item.color}22; color:${item.color}; border:1px solid ${item.color}44">${item.outcome}</span></td>
+            `;
+            tbody.appendChild(row);
+          });
+
+          if (isobologramChart) {
+            isobologramChart.options.scales.x.max = maxDA * 1.25;
+            isobologramChart.options.scales.y.max = maxDB * 1.25;
+            isobologramChart.data.datasets[0].data = [{ x: 0, y: defaultDB }, { x: defaultDA, y: 0 }];
+            isobologramChart.data.datasets[1].data = chartPoints;
+            isobologramChart.data.datasets[1].pointBackgroundColor = pointColors;
+            document.getElementById('plot-point-count').innerText = `${batchData.length} Doses Plotted`;
+            isobologramChart.update();
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Error processing file via backend webservice.");
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function clearBatchData() {
+      batchData = [];
+      document.getElementById('upload-status').classList.add('hidden');
+      document.getElementById('batch-results-section').classList.add('hidden');
+      document.getElementById('excel-file-input').value = '';
+      requestCalculation();
+    }
+
+    function downloadChartPNG() {
+      if (!isobologramChart) return;
+      const link = document.createElement('a');
+      link.download = 'Loewe_Isobologram_Figure.png';
+      link.href = isobologramChart.toBase64Image('image/png', 1.0);
+      link.click();
+    }
+
+    function downloadSampleExcel() {
+      const sampleData = [
+        { Sample_ID: "Combo_1 (Synergy)", Dose_A: 25, Dose_B: 10, Solo_DA: 100, Solo_DB: 50 },
+        { Sample_ID: "Combo_2 (Synergy)", Dose_A: 30, Dose_B: 15, Solo_DA: 100, Solo_DB: 50 },
+        { Sample_ID: "Combo_3 (Additive)", Dose_A: 50, Dose_B: 25, Solo_DA: 100, Solo_DB: 50 },
+        { Sample_ID: "Combo_4 (Additive)", Dose_A: 40, Dose_B: 30, Solo_DA: 100, Solo_DB: 50 },
+        { Sample_ID: "Combo_5 (Antagonism)", Dose_A: 80, Dose_B: 45, Solo_DA: 100, Solo_DB: 50 }
+      ];
+      const ws = XLSX.utils.json_to_sheet(sampleData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Synergy_Checkerboard");
+      XLSX.writeFile(wb, "Loewe_Additivity_Sample_Template.xlsx");
+    }
+
+    function exportProcessedResults() {
+      if (batchData.length === 0) return;
+      const ws = XLSX.utils.json_to_sheet(batchData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Loewe_Results");
+      XLSX.writeFile(wb, "Loewe_Server_Results.xlsx");
+    }
+
+    function loadPreset(type) {
+      clearBatchData();
+      if (type === 'synergy') {
+        document.getElementById('DA').value = 100;
+        document.getElementById('DB').value = 50;
+        document.getElementById('dA').value = 25;
+        document.getElementById('dB').value = 15;
+      } else if (type === 'additive') {
+        document.getElementById('DA').value = 100;
+        document.getElementById('DB').value = 50;
+        document.getElementById('dA').value = 50;
+        document.getElementById('dB').value = 25;
+      } else if (type === 'antagonism') {
+        document.getElementById('DA').value = 100;
+        document.getElementById('DB').value = 50;
+        document.getElementById('dA').value = 80;
+        document.getElementById('dB').value = 45;
+      }
+      requestCalculation();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initChart();
+      checkBackendOnLoad();
+    });
+  </script>
+</body>
+</html>
