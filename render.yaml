@@ -3,7 +3,7 @@ services:
   # 1. Backend Web Service (Protected Calculation API)
   # -------------------------------------------------------------
   - type: web
-    name: loewe-calc-api
+    name: api-loewe-calc
     runtime: node
     plan: free
     rootDir: backend_webservice
@@ -19,7 +19,7 @@ services:
   # 2. Static Landing Page (UI + 2D Isobologram Plotter)
   # -------------------------------------------------------------
   - type: web
-    name: loewe-calc
+    name: calc-loewe
     runtime: static
     rootDir: static_frontend
     staticPublishPath: .
