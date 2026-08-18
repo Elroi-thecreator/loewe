@@ -57,6 +57,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
+  <!-- External Environment Settings -->
+  <script src="config.js"></script>
+
+  <!-- Tailwind Config -->
   <script>
     window.tailwind = {
       config: {
@@ -85,7 +89,7 @@
 
   <div class="relative z-10 max-w-6xl mx-auto px-4 py-6 md:py-10 flex-grow w-full space-y-6 md:space-y-8">
     
-    <!-- Backend Connection Handshake Status Bar -->
+    <!-- Backend Connection / Cold-Start Wake-up Status Bar -->
     <div id="backend-status-card" class="rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-amber-50 dark:bg-amber-950/50 border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-amber-200 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-3">
@@ -96,7 +100,6 @@
           </div>
         </div>
         <div class="flex items-center gap-3 self-end sm:self-center">
-          <button onclick="promptBackendURL()" class="underline font-sans font-semibold text-xs text-indigo-600 dark:text-indigo-400 hover:opacity-80">Configure API URL</button>
           <span id="backend-latency" class="px-2.5 py-1 rounded-lg bg-amber-200/60 dark:bg-amber-900/50 text-[11px] font-bold">Attempt 1</span>
         </div>
       </div>
@@ -437,20 +440,15 @@
   </div>
 
   <script>
-    let BACKEND_API_BASE = localStorage.getItem('loewe_backend_api_url') || 'https://api-loewe-calc.onrender.com';
+    // Read API endpoint directly from config.js (fallback to default Render URL if config.js is missing)
+    const BACKEND_API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
+      ? window.APP_CONFIG.API_BASE_URL.replace(/\/$/, '')
+      : 'https://loewe-calc-api.onrender.com';
+
     let isobologramChart = null;
     let batchData = [];
     let debounceTimer = null;
     let isBackendReady = false;
-
-    function promptBackendURL() {
-      const input = prompt("Enter your Render Backend Web Service URL:", BACKEND_API_BASE);
-      if (input !== null && input.trim() !== '') {
-        BACKEND_API_BASE = input.trim().replace(/\/$/, '');
-        localStorage.setItem('loewe_backend_api_url', BACKEND_API_BASE);
-        startBackendHandshakeLoop();
-      }
-    }
 
     async function startBackendHandshakeLoop() {
       const card = document.getElementById('backend-status-card');
@@ -493,7 +491,7 @@
             card.className = "rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-700/60 text-emerald-900 dark:text-emerald-200 shadow-sm";
             ping.className = "w-3 h-3 rounded-full bg-emerald-500 flex-shrink-0";
             text.innerHTML = `✓ Backend Web Service Live &amp; Ready`;
-            subtext.innerText = `Successfully connected to: ${BACKEND_API_BASE}`;
+            subtext.innerText = `Connected to API endpoint (${BACKEND_API_BASE})`;
             latencyLabel.innerText = `${latency} ms`;
             progressBar.style.width = '100%';
             
@@ -505,7 +503,7 @@
             return;
           }
         } catch (err) {
-          // Cold start ongoing
+          // Cold start in progress
         }
 
         attempt++;
@@ -515,7 +513,7 @@
           card.className = "rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-rose-50 dark:bg-rose-950/50 border-rose-300 dark:border-rose-700/60 text-rose-900 dark:text-rose-200 shadow-sm";
           ping.className = "w-3 h-3 rounded-full bg-rose-500 flex-shrink-0";
           text.innerHTML = `⚠ Backend web service is still warming up or unreachable.`;
-          subtext.innerText = `Please verify that your Render web service is active, or check your API URL above.`;
+          subtext.innerText = `Please verify your API endpoint in config.js.`;
           latencyLabel.innerText = "Timeout";
           progressContainer.classList.add('hidden');
         }
