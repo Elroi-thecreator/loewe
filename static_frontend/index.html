@@ -57,26 +57,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- External Environment Settings -->
-  <script src="config.js"></script>
-
-  <!-- Tailwind Config -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    window.tailwind = {
-      config: {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-              mono: ['"JetBrains Mono"', 'monospace'],
-            }
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
           }
         }
       }
-    };
+    }
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
@@ -89,18 +85,18 @@
 
   <div class="relative z-10 max-w-6xl mx-auto px-4 py-6 md:py-10 flex-grow w-full space-y-6 md:space-y-8">
     
-    <!-- Backend Connection / Cold-Start Wake-up Status Bar -->
+    <!-- Backend Connection / Cold-Start Status Bar (No API URL displayed) -->
     <div id="backend-status-card" class="rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-amber-50 dark:bg-amber-950/50 border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-amber-200 shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <span id="backend-status-ping" class="w-3 h-3 rounded-full bg-amber-500 animate-ping flex-shrink-0"></span>
           <div>
-            <span id="backend-status-text" class="font-semibold text-sm">Waking up backend web service...</span>
-            <p id="backend-status-subtext" class="text-[11px] text-amber-700 dark:text-amber-400 mt-0.5">Render free-tier instances sleep after inactivity. Automatically polling until live (typically 30–50s)...</p>
+            <span id="backend-status-text" class="font-semibold text-sm">Connecting to secure calculation engine...</span>
+            <p id="backend-status-subtext" class="text-[11px] text-amber-700 dark:text-amber-400 mt-0.5">Initializing cloud computational instance. Please wait a moment...</p>
           </div>
         </div>
         <div class="flex items-center gap-3 self-end sm:self-center">
-          <span id="backend-latency" class="px-2.5 py-1 rounded-lg bg-amber-200/60 dark:bg-amber-900/50 text-[11px] font-bold">Attempt 1</span>
+          <span id="backend-latency" class="px-2.5 py-1 rounded-lg bg-amber-200/60 dark:bg-amber-900/50 text-[11px] font-bold">Connecting</span>
         </div>
       </div>
       <div id="backend-progress-container" class="w-full bg-amber-200 dark:bg-amber-900/40 rounded-full h-1.5 mt-3 overflow-hidden">
@@ -108,7 +104,7 @@
       </div>
     </div>
 
-    <!-- Header with High-Visibility Logo & Academic Branding -->
+    <!-- Header Card -->
     <header class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm dark:shadow-2xl transition-colors duration-200">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-100 dark:border-slate-800">
         
@@ -141,16 +137,17 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2.5">
-          <button id="btn-preset-synergy" onclick="loadPreset('synergy')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-slate-950 transition-all shadow-sm">
+          <button onclick="loadPreset('synergy')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-slate-950 transition-all shadow-sm">
             Synergy Preset
           </button>
-          <button id="btn-preset-additive" onclick="loadPreset('additive')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 dark:hover:text-white transition-all shadow-sm">
+          <button onclick="loadPreset('additive')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 dark:hover:text-white transition-all shadow-sm">
             Additive Preset
           </button>
-          <button id="btn-preset-antagonism" onclick="loadPreset('antagonism')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20 hover:bg-rose-600 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white transition-all shadow-sm">
+          <button onclick="loadPreset('antagonism')" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20 hover:bg-rose-600 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white transition-all shadow-sm">
             Antagonism Preset
           </button>
 
+          <!-- Day/Night Toggle Button -->
           <button id="theme-toggle" onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-300 dark:border-slate-700 hover:scale-105 transition-all shadow-sm" title="Toggle Day/Night Mode">
             <svg id="theme-icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9h-1m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
@@ -162,7 +159,7 @@
         </div>
       </div>
 
-      <!-- Institutional Attribution Tags (Aligned One by One) -->
+      <!-- Institutional Attribution Tags (Aligned Item-by-Item) -->
       <div class="pt-5 grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
         <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
           <span class="block text-slate-500 dark:text-slate-400 font-medium mb-1.5">Principal Developers &amp; Maintainers</span>
@@ -440,7 +437,6 @@
   </div>
 
   <script>
-    // Read API endpoint directly from config.js (fallback to default Render URL if config.js is missing)
     const BACKEND_API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
       ? window.APP_CONFIG.API_BASE_URL.replace(/\/$/, '')
       : 'https://loewe-calc-api.onrender.com';
@@ -450,99 +446,31 @@
     let debounceTimer = null;
     let isBackendReady = false;
 
-    async function startBackendHandshakeLoop() {
-      const card = document.getElementById('backend-status-card');
-      const ping = document.getElementById('backend-status-ping');
-      const text = document.getElementById('backend-status-text');
-      const subtext = document.getElementById('backend-status-subtext');
-      const latencyLabel = document.getElementById('backend-latency');
-      const progressBar = document.getElementById('backend-progress-bar');
-      const progressContainer = document.getElementById('backend-progress-container');
-
-      card.className = "rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-amber-50 dark:bg-amber-950/50 border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-amber-200 shadow-sm";
-      ping.className = "w-3 h-3 rounded-full bg-amber-500 animate-ping flex-shrink-0";
-      progressContainer.classList.remove('hidden');
-
-      let attempt = 1;
-      const maxAttempts = 30;
-      let progress = 5;
-
-      const poll = async () => {
-        text.innerText = `Waking up backend web service (${attempt}/${maxAttempts})...`;
-        latencyLabel.innerText = `Attempt ${attempt}`;
-        progress = Math.min(95, progress + (90 / maxAttempts));
-        progressBar.style.width = `${progress}%`;
-
-        const startTime = performance.now();
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 6000);
-
-          const res = await fetch(`${BACKEND_API_BASE}/api/health`, {
-            method: 'GET',
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-
-          const latency = Math.round(performance.now() - startTime);
-
-          if (res.ok) {
-            isBackendReady = true;
-            card.className = "rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-700/60 text-emerald-900 dark:text-emerald-200 shadow-sm";
-            ping.className = "w-3 h-3 rounded-full bg-emerald-500 flex-shrink-0";
-            text.innerHTML = `✓ Backend Web Service Live &amp; Ready`;
-            subtext.innerText = `Connected to API endpoint (${BACKEND_API_BASE})`;
-            latencyLabel.innerText = `${latency} ms`;
-            progressBar.style.width = '100%';
-            
-            setTimeout(() => {
-              progressContainer.classList.add('hidden');
-            }, 800);
-
-            requestCalculation();
-            return;
-          }
-        } catch (err) {
-          // Cold start in progress
-        }
-
-        attempt++;
-        if (attempt <= maxAttempts) {
-          setTimeout(poll, 2500);
-        } else {
-          card.className = "rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-rose-50 dark:bg-rose-950/50 border-rose-300 dark:border-rose-700/60 text-rose-900 dark:text-rose-200 shadow-sm";
-          ping.className = "w-3 h-3 rounded-full bg-rose-500 flex-shrink-0";
-          text.innerHTML = `⚠ Backend web service is still warming up or unreachable.`;
-          subtext.innerText = `Please verify your API endpoint in config.js.`;
-          latencyLabel.innerText = "Timeout";
-          progressContainer.classList.add('hidden');
-        }
-      };
-
-      poll();
-    }
-
+    // --- Direct, Reliable Theme Management ---
     function initTheme() {
       const savedTheme = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      applyTheme(isDark);
+    }
 
+    function toggleTheme() {
+      const isCurrentlyDark = document.documentElement.classList.contains('dark');
+      applyTheme(!isCurrentlyDark);
+    }
+
+    function applyTheme(isDark) {
       if (isDark) {
         document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
         document.getElementById('theme-icon-sun')?.classList.add('hidden');
         document.getElementById('theme-icon-moon')?.classList.remove('hidden');
       } else {
         document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
         document.getElementById('theme-icon-sun')?.classList.remove('hidden');
         document.getElementById('theme-icon-moon')?.classList.add('hidden');
       }
-    }
-
-    function toggleTheme() {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      document.getElementById('theme-icon-sun')?.classList.toggle('hidden', isDark);
-      document.getElementById('theme-icon-moon')?.classList.toggle('hidden', !isDark);
       updateChartTheme(isDark);
     }
 
@@ -623,6 +551,74 @@
           }
         }
       });
+    }
+
+    async function startBackendHandshakeLoop() {
+      const card = document.getElementById('backend-status-card');
+      const ping = document.getElementById('backend-status-ping');
+      const text = document.getElementById('backend-status-text');
+      const subtext = document.getElementById('backend-status-subtext');
+      const latencyLabel = document.getElementById('backend-latency');
+      const progressBar = document.getElementById('backend-progress-bar');
+      const progressContainer = document.getElementById('backend-progress-container');
+
+      let attempt = 1;
+      const maxAttempts = 30;
+      let progress = 5;
+
+      const poll = async () => {
+        text.innerText = `Waking up backend calculation instance (${attempt}/${maxAttempts})...`;
+        latencyLabel.innerText = `Attempt ${attempt}`;
+        progress = Math.min(95, progress + (90 / maxAttempts));
+        progressBar.style.width = `${progress}%`;
+
+        const startTime = performance.now();
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+          const res = await fetch(`${BACKEND_API_BASE}/api/health`, {
+            method: 'GET',
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          const latency = Math.round(performance.now() - startTime);
+
+          if (res.ok) {
+            isBackendReady = true;
+            card.className = "rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-700/60 text-emerald-900 dark:text-emerald-200 shadow-sm";
+            ping.className = "w-3 h-3 rounded-full bg-emerald-500 flex-shrink-0";
+            text.innerHTML = `✓ Calculation Engine Live &amp; Ready`;
+            subtext.innerText = `Connected to secure computational cloud service`;
+            latencyLabel.innerText = `${latency} ms`;
+            progressBar.style.width = '100%';
+            
+            setTimeout(() => {
+              progressContainer.classList.add('hidden');
+            }, 800);
+
+            requestCalculation();
+            return;
+          }
+        } catch (err) {
+          // Cold start ongoing
+        }
+
+        attempt++;
+        if (attempt <= maxAttempts) {
+          setTimeout(poll, 2500);
+        } else {
+          card.className = "rounded-2xl px-5 py-4 text-xs font-mono border transition-all duration-300 bg-rose-50 dark:bg-rose-950/50 border-rose-300 dark:border-rose-700/60 text-rose-900 dark:text-rose-200 shadow-sm";
+          ping.className = "w-3 h-3 rounded-full bg-rose-500 flex-shrink-0";
+          text.innerHTML = `⚠ Calculation service is still starting up or unreachable.`;
+          subtext.innerText = `Please verify connection or refresh in a few seconds.`;
+          latencyLabel.innerText = "Timeout";
+          progressContainer.classList.add('hidden');
+        }
+      };
+
+      poll();
     }
 
     async function requestCalculation() {
@@ -729,7 +725,7 @@
 
     function processExcelBlob(file) {
       if (!isBackendReady) {
-        alert("Please wait for the backend web service to complete its on-load handshake before uploading.");
+        alert("Please wait for the calculation service to finish initializing before uploading.");
         return;
       }
 
@@ -754,7 +750,7 @@
           batchData = batchResult.results;
 
           document.getElementById('upload-status').classList.remove('hidden');
-          document.getElementById('upload-status-text').innerText = `Server processed ${batchData.length} records from "${file.name}"`;
+          document.getElementById('upload-status-text').innerText = `Processed ${batchData.length} records from "${file.name}"`;
           document.getElementById('batch-results-section').classList.remove('hidden');
 
           document.getElementById('stat-total').innerText = batchResult.summary.total;
@@ -800,7 +796,7 @@
           }
         } catch (err) {
           console.error(err);
-          alert("Error processing file via backend webservice.");
+          alert("Error processing file via backend service.");
         }
       };
       reader.readAsArrayBuffer(file);
