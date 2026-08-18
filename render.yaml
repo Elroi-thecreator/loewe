@@ -1,5 +1,7 @@
 services:
+  # -------------------------------------------------------------
   # 1. Backend Web Service (Protected Calculation API)
+  # -------------------------------------------------------------
   - type: web
     name: loewe-calc-api
     runtime: node
@@ -13,12 +15,14 @@ services:
     healthCheckPath: /api/health
     autoDeploy: true
 
+  # -------------------------------------------------------------
   # 2. Static Landing Page (UI + 2D Isobologram Plotter)
-  - type: static_site
-    name: calc-loewe
-    plan: free
+  # -------------------------------------------------------------
+  - type: web
+    name: loewe-calc
+    runtime: static
     rootDir: static_frontend
-    publishPath: .
+    staticPublishPath: .
     routes:
       - type: rewrite
         source: /*
